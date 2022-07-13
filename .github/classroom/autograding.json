@@ -1,0 +1,374 @@
+{
+  "tests": [
+    {
+      "name": "Build",
+      "setup": "",
+      "run": "timeout -s KILL 2m make all",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": null
+    },
+    {
+      "name": "Test matrix multiplication (1)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.05",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (2)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.10",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (3)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.15",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (4)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.20",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (5)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.25",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (6)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.30",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (7)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.35",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (8)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.40",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (9)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.45",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (10)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.50",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (11)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.55",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (12)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.60",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (13)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.65",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (14)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.70",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (15)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.75",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (16)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.80",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (17)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.85",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (18)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.90",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test matrix multiplication (19)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_matrix_multiplication.py 0.95",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 2
+    },
+    {
+      "name": "Test mandelbrot (1)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.15",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "Test mandelbrot (2)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.20",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (3)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.25",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (4)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.30",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (5)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.35",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (6)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.40",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (7)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.45",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (8)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.50",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (9)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.55",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (10)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.60",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (11)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.65",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (12)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.70",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (13)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.75",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (14)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.80",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (15)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.85",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (16)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.90",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "Test mandelbrot (17)",
+      "setup": "",
+      "run": "timeout -s KILL 2m python3 tests/test_mandelbrot.py 0.95",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 2
+    }
+  ]
+}
