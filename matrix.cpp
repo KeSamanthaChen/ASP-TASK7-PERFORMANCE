@@ -57,9 +57,13 @@ void naive_matrix_multiply(float *a, float *b, float *c, int n) { //A*B
                 __m128 fd = _mm_load_ps(&d[j*n+k]);
                 sum = _mm_add_ps(sum, _mm_mul_ps(fa, fd));
             }
-            float a[] = { 1.0f, 2.0f, 3.0f, 4.0f };
-            _mm_store_ps(a, sum);
-            c[i*n+j] = a[0]+a[1]+a[2]+a[3];
+            // https://stackoverflow.com/questions/6996764/fastest-way-to-do-horizontal-sse-vector-sum-or-other-reduction
+            // https://stackoverflow.com/questions/10163637/sum-of-the-four-32bits-elements-of-a-m128-vector
+            __m128 shuf   = _mm_shuffle_ps(sum, sum, _MM_SHUFFLE(2, 3, 0, 1));  // [ C D | A B ]
+            __m128 sums   = _mm_add_ps(sum, shuf);      // sums = [ D+C C+D | B+A A+B ]
+            shuf          = _mm_movehl_ps(shuf, sums);      //  [   C   D | D+C C+D ]  // let the compiler avoid a mov by reusing shuf
+            sums          = _mm_add_ss(sums, shuf);
+            c[i*n+j]      = _mm_cvtss_f32(sums);
         }
     }
     // for (int i = 0; i < n; i++) { // row
