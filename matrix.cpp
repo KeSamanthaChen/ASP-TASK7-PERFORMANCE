@@ -29,11 +29,6 @@ inline void transpose4x4_SSE(float *A, float *B, const int n) {
 
 inline void transpose_block_SSE4x4(float *A, float *B, const int n) {
     #pragma omp parallel for num_threads(4)
-    // for(int i=0; i<n; i+=4) {
-    //     for(int j=0; j<n; j+=4) {
-    //         transpose4x4_SSE(&A[i*n +j], &B[j*n + i], n);
-    //     }   
-    // }
     for(int i=0; i<n; i+=16) {
         for(int j=0; j<n; j+=16) {
             int max_i2 = i+16 < n ? i + 16 : n;
@@ -50,17 +45,31 @@ inline void transpose_block_SSE4x4(float *A, float *B, const int n) {
 
 void naive_matrix_multiply(float *a, float *b, float *c, int n) { //A*B
     std::vector<float> d(n * n, 0.0f);
+    std::vector<float> r(4, 0.0f);
     transpose_block_SSE4x4(b, d.data(), n);
 
-    #pragma omp parallel for num_threads(4)
+    #pragma omp parallel for num_threads(4)  
     for (int i = 0; i < n; i++) { // row
         for (int j = 0; j < n; j++) { // column
-            c[i * n + j] = 0.0f;
-            for (int k = 0; k < n; k++) { // matrix multiple, store in row, cache locality
-                c[i * n + j] += a[i * n + k] * d[j * n + k];
+            __m128 sum = _mm_setzero_ps();
+            for (int k = 0; k < n; k+=4) { // 
+                __m128 fa = _mm_load_ps(&a[i*n+k]);
+                __m128 fd = _mm_load_ps(&d[j*n+k]);
+                sum = _mm_add_ps(sum, _mm_mul_ps(fa, fd));
             }
+            float a[] = { 1.0f, 2.0f, 3.0f, 4.0f };
+            _mm_store_ps(a, sum);
+            c[i*n+j] = a[0]+a[1]+a[2]+a[3];
         }
     }
+    // for (int i = 0; i < n; i++) { // row
+    //     for (int j = 0; j < n; j++) { // column
+    //         c[i * n + j] = 0.0f;
+    //         for (int k = 0; k < n; k++) { // matrix multiple, store in row, cache locality
+    //             c[i * n + j] += a[i * n + k] * d[j * n + k];
+    //         }
+    //     }
+    // }
 }
 
 #ifdef __cplusplus
