@@ -14,7 +14,7 @@ clean:
 	rm -f libmatrix.so libmandelbrot.so
 
 libmatrix.so: matrix.cpp
-	$(CXX) $(CXXFLAGS) -shared -fPIC -o $@ $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -shared -fPIC -fopenmp -o $@ $^ $(LDFLAGS)
 
 libmandelbrot.so: mandelbrot.cpp
 	$(CXX) $(CXXFLAGS) -shared -fPIC -o $@ $^ $(LDFLAGS)

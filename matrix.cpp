@@ -43,7 +43,7 @@ namespace chrono = std::chrono;
 // }
 
 inline void transpose(float *src, float *dst, const int N, const int M) {
-    // #pragma omp parallel for num_thread(4)
+    #pragma omp parallel for num_threads(4)
     for(int n = 0; n<N*M; n++) {
         int i = n/N;
         int j = n%N;
@@ -58,7 +58,7 @@ void naive_matrix_multiply(float *a, float *b, float *c, int n) { //A*B
     transpose(b, d.data(), n, n);
     // transpose_block_SSE4x4(b., d.data(), n);
 
-    // #pragma omp parallel for num_threads(4)  
+    #pragma omp parallel for num_threads(4)  
     for (int i = 0; i < n; i++) { // row
         for (int j = 0; j < n; j++) { // column
             __m128 sum = _mm_setzero_ps();
