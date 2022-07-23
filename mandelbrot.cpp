@@ -12,10 +12,6 @@
 
 __m128 constCompare = _mm_set_ps1(4.0f);
 __m128 constMulti = _mm_set_ps1(2);
-__m128 constOne   = _mm_set_ps(0, 1, 1, 1);
-__m128 constTwo   = _mm_set_ps(1, 0, 1, 1);
-__m128 constThree = _mm_set_ps(1, 1, 0, 1);
-__m128 constFour  = _mm_set_ps(1, 1, 1, 0);
 
 // __m128 mandelbrot_calc_base(__m128 x, __m128 y) {
 //     __m128 result;
@@ -64,9 +60,9 @@ void naive_mandelbrot(int width, int height, int* plot) {
     for (int i = 0; i < height; i++) { // the same i, j in mandelbort_dirver compare, for i=0
         for (int j = 0; j < width; j+=4) {
             float x = X_START + j * dx;  // real value
-            float x1 =  X_START + j * dx + dx;
-            float x2 =  X_START + j * dx + dx + dx;
-            float x3 =  X_START + j * dx + dx + dx + dx;
+            float x1 =  X_START + (j+1) * dx;// + dx;
+            float x2 =  X_START + (j+2) * dx;// + dx + dx;
+            float x3 =  X_START + (j+3) * dx;// + dx + dx + dx;
             float y = Y_END - i * dy;    // imaginary value
 
             __m128 x_simd = _mm_set_ps(x, x1, x2, x3);
@@ -94,7 +90,8 @@ void naive_mandelbrot(int width, int height, int* plot) {
                 // Set each bit of mask dst based on the most significant bit of the corresponding packed single-precision (32-bit) floating-point element in a.
                 int cmp_val_int = _mm_movemask_ps(cmp_val); //int: low - high => cpm_val: high -> low
 
-                if (i == 0 && j == 8184 && k == 1) fprintf(stderr, "cmp_val_int 8184 value: %d\n", cmp_val_int); // 15?
+                // 3277, 1638
+                if (i == 3277 && j == 1636 && k == 1) fprintf(stderr, "cmp_val_int 1636 value: %d\n", cmp_val_int); // 12?
                 
                 // 1    1    0    0
                 // 8188 8189 8190 8191
@@ -122,7 +119,7 @@ void naive_mandelbrot(int width, int height, int* plot) {
                     if (current_cmp_val_int == 15) break; // all result set
                 }
 
-                im = _mm_add_ps(_mm_mul_ps(constMulti, _mm_mul_ps(re, im)), y_simd);
+                im = _mm_add_ps(_mm_mul_ps(_mm_mul_ps(constMulti, re),im), y_simd);
                 re = _mm_add_ps(_mm_sub_ps(re2, im2), x_simd);
                 // im = 2 * re * im + y;
                 // re = re2 - im2 + x;
