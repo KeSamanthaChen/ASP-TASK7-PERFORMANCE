@@ -60,7 +60,7 @@ void naive_mandelbrot(int width, int height, int* plot) {
     float dx = (X_END - X_START) / (width - 1);
     float dy = (Y_END - Y_START) / (height - 1);
 
-    #pragma omp parallel for num_threads(4)  
+    #pragma omp parallel for num_threads(4)
     for (int i = 0; i < height; i++) { // the same i, j in mandelbort_dirver compare, for i=0
         for (int j = 0; j < width; j+=4) {
             float x = X_START + j * dx;  // real value
@@ -80,6 +80,7 @@ void naive_mandelbrot(int width, int height, int* plot) {
             // auto re = x;
             // auto im = y;
             int current_cmp_val_int = 0;
+            int flags[4] = {0};
 
             for (auto k = 0; k < LOOP; k++) {
                 __m128 re2 = _mm_mul_ps(re, re);
@@ -93,52 +94,29 @@ void naive_mandelbrot(int width, int height, int* plot) {
                 // Set each bit of mask dst based on the most significant bit of the corresponding packed single-precision (32-bit) floating-point element in a.
                 int cmp_val_int = _mm_movemask_ps(cmp_val); //int: low - high => cpm_val: high -> low
 
-                if (i == 0 && j == 8184 && k == 0) fprintf(stderr, "cmp_val_int 8184 value: %d\n", cmp_val_int); // 15?
-                if (i == 0 && j == 8188 && k == 0) fprintf(stderr, "cmp_val_int 8188 value: %d\n", cmp_val_int); // 12
+                if (i == 0 && j == 8184 && k == 1) fprintf(stderr, "cmp_val_int 8184 value: %d\n", cmp_val_int); // 15?
                 
                 // 1    1    0    0
                 // 8188 8189 8190 8191
-                if (cmp_val_int != 0) {
-                    if (cmp_val_int & 1) {
+                if (cmp_val_int != current_cmp_val_int) {
+                    if (cmp_val_int & 1 && !flags[0]) {
+                        flags[0] = 1;
                         plot[i*width + j + 3] = k;
-                        // make sure this value will never be in the statement again
-                        // update re and im, x_simd & y_simd
-                        re = _mm_and_ps(constFour, re); // 1, 1, 1, 0
-                        im = _mm_and_ps(constFour, im);
-                        re2 = _mm_and_ps(constFour, re2);
-                        im2 = _mm_and_ps(constFour, im2);
-                        x_simd = _mm_and_ps(constFour, x_simd);
-                        y_simd = _mm_and_ps(constFour, y_simd);
                         current_cmp_val_int += 1;
                     }
-                    if (cmp_val_int & 2) {
+                    if (cmp_val_int & 2 && !flags[1]) {
+                        flags[1] = 1;
                         plot[i*width + j + 2] = k;
-                        re = _mm_and_ps(constThree, re); // 1, 1, 0, 1
-                        im = _mm_and_ps(constThree, im);
-                        re2 = _mm_and_ps(constThree, re2);
-                        im2 = _mm_and_ps(constThree, im2);
-                        x_simd = _mm_and_ps(constThree, x_simd);
-                        y_simd = _mm_and_ps(constThree, y_simd);
                         current_cmp_val_int += 2;
                     }
-                    if (cmp_val_int & 4) {
+                    if (cmp_val_int & 4 && !flags[2]) {
+                        flags[2] = 1;
                         plot[i*width + j + 1] = k;
-                        re = _mm_and_ps(constTwo, re); // 1, 0, 1, 1
-                        im = _mm_and_ps(constTwo, im);
-                        re2 = _mm_and_ps(constTwo, re2);
-                        im2 = _mm_and_ps(constTwo, im2);
-                        x_simd = _mm_and_ps(constTwo, x_simd);
-                        y_simd = _mm_and_ps(constTwo, y_simd);
                         current_cmp_val_int += 4;
                     }
-                    if (cmp_val_int & 8) {
+                    if (cmp_val_int & 8 && !flags[3]) {
+                        flags[3] = 1;
                         plot[i*width + j] = k;
-                        re = _mm_and_ps(constOne, re); // 0, 1, 1, 1
-                        im = _mm_and_ps(constOne, im);
-                        re2 = _mm_and_ps(constOne, re2);
-                        im2 = _mm_and_ps(constOne, im2);
-                        x_simd = _mm_and_ps(constOne, x_simd);
-                        y_simd = _mm_and_ps(constOne, y_simd);
                         current_cmp_val_int += 8;
                     }
                     if (current_cmp_val_int == 15) break; // all result set
