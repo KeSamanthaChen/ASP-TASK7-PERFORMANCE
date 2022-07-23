@@ -96,21 +96,32 @@ void naive_mandelbrot(int width, int height, int* plot) {
                 if (i == 0 && j == 8184 && k == 0) fprintf(stderr, "cmp_val_int 8184 value: %d\n", cmp_val_int); // 15?
                 if (i == 0 && j == 8188 && k == 0) fprintf(stderr, "cmp_val_int 8188 value: %d\n", cmp_val_int); // 12
                 
-
+                // 1    1    0    0
+                // 8188 8189 8190 8191
                 if (cmp_val_int != 0) {
                     if (cmp_val_int & 1) {
-                        plot[i*width + j] = k;
+                        plot[i*width + j + 3] = k;
                         // make sure this value will never be in the statement again
                         // update re and im, x_simd & y_simd
-                        re = _mm_and_ps(constOne, re); // 0, 1, 1, 1
-                        im = _mm_and_ps(constOne, im);
-                        re2 = _mm_and_ps(constOne, re2);
-                        im2 = _mm_and_ps(constOne, im2);
-                        x_simd = _mm_and_ps(constOne, x_simd);
-                        y_simd = _mm_and_ps(constOne, y_simd);
+                        re = _mm_and_ps(constFour, re); // 1, 1, 1, 0
+                        im = _mm_and_ps(constFour, im);
+                        re2 = _mm_and_ps(constFour, re2);
+                        im2 = _mm_and_ps(constFour, im2);
+                        x_simd = _mm_and_ps(constFour, x_simd);
+                        y_simd = _mm_and_ps(constFour, y_simd);
                         current_cmp_val_int += 1;
                     }
                     if (cmp_val_int & 2) {
+                        plot[i*width + j + 2] = k;
+                        re = _mm_and_ps(constThree, re); // 1, 1, 0, 1
+                        im = _mm_and_ps(constThree, im);
+                        re2 = _mm_and_ps(constThree, re2);
+                        im2 = _mm_and_ps(constThree, im2);
+                        x_simd = _mm_and_ps(constThree, x_simd);
+                        y_simd = _mm_and_ps(constThree, y_simd);
+                        current_cmp_val_int += 2;
+                    }
+                    if (cmp_val_int & 4) {
                         plot[i*width + j + 1] = k;
                         re = _mm_and_ps(constTwo, re); // 1, 0, 1, 1
                         im = _mm_and_ps(constTwo, im);
@@ -118,26 +129,16 @@ void naive_mandelbrot(int width, int height, int* plot) {
                         im2 = _mm_and_ps(constTwo, im2);
                         x_simd = _mm_and_ps(constTwo, x_simd);
                         y_simd = _mm_and_ps(constTwo, y_simd);
-                        current_cmp_val_int += 2;
-                    }
-                    if (cmp_val_int & 4) {
-                        plot[i*width + j + 1 + 1] = k;
-                        re = _mm_and_ps(constThree, re); // 1, 1, 0, 1
-                        im = _mm_and_ps(constThree, im);
-                        re2 = _mm_and_ps(constThree, re2);
-                        im2 = _mm_and_ps(constThree, im2);
-                        x_simd = _mm_and_ps(constThree, x_simd);
-                        y_simd = _mm_and_ps(constThree, y_simd);
                         current_cmp_val_int += 4;
                     }
                     if (cmp_val_int & 8) {
-                        plot[i*width + j + 1 + 1 + 1] = k;
-                        re = _mm_and_ps(constFour, re); // 1, 1, 1, 0
-                        im = _mm_and_ps(constFour, im);
-                        re2 = _mm_and_ps(constFour, re2);
-                        im2 = _mm_and_ps(constFour, im2);
-                        x_simd = _mm_and_ps(constFour, x_simd);
-                        y_simd = _mm_and_ps(constFour, y_simd);
+                        plot[i*width + j] = k;
+                        re = _mm_and_ps(constOne, re); // 0, 1, 1, 1
+                        im = _mm_and_ps(constOne, im);
+                        re2 = _mm_and_ps(constOne, re2);
+                        im2 = _mm_and_ps(constOne, im2);
+                        x_simd = _mm_and_ps(constOne, x_simd);
+                        y_simd = _mm_and_ps(constOne, y_simd);
                         current_cmp_val_int += 8;
                     }
                     if (current_cmp_val_int == 15) break; // all result set
@@ -150,10 +151,10 @@ void naive_mandelbrot(int width, int height, int* plot) {
             }
             if (current_cmp_val_int != 15) {
                 int new_int = 15 - current_cmp_val_int;
-                if (new_int & 1) plot[i*width + j] = LOOP;
-                if (new_int & 2) plot[i*width + j + 1] = LOOP;
-                if (new_int & 4) plot[i*width + j + 1 + 1] = LOOP;
-                if (new_int & 8) plot[i*width + j + 1 + 1 + 1] = LOOP;
+                if (new_int & 1) plot[i*width + j + 3] = LOOP;
+                if (new_int & 2) plot[i*width + j + 2] = LOOP;
+                if (new_int & 4) plot[i*width + j + 1] = LOOP;
+                if (new_int & 8) plot[i*width + j] = LOOP;
             }
             // seperate the result here
             // plot[i * width + j] = result;
