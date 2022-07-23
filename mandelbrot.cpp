@@ -28,10 +28,18 @@ int mandelbrot_calc_base(float x, float y) {
     return LOOP;
 }
 
+/**
+ * @brief Calculates mandelbrot and stores the output in plot
+ *
+ * @param width  number of pixels available horizontally
+ * @param height number of pixels available vertically
+ * @param plot   output array
+ */
 void naive_mandelbrot(int width, int height, int* plot) {
     float dx = (X_END - X_START) / (width - 1);
     float dy = (Y_END - Y_START) / (height - 1);
 
+    #pragma omp parallel for num_threads(4)  
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             float x = X_START + j * dx;  // real value

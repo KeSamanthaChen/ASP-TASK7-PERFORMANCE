@@ -14,7 +14,7 @@
 
 namespace chrono = std::chrono;
 
-// https://stackoverflow.com/questions/16737298/what-is-the-fastest-way-to-transpose-a-matrix-in-c
+
 // inline void transpose4x4_SSE(float *A, float *B, const int n) {
 //     __m128 row1 = _mm_load_ps(&A[0*n]);
 //     __m128 row2 = _mm_load_ps(&A[1*n]);
@@ -42,6 +42,7 @@ namespace chrono = std::chrono;
 //     }
 // }
 
+// https://stackoverflow.com/questions/16737298/what-is-the-fastest-way-to-transpose-a-matrix-in-c
 inline void transpose(float *src, float *dst, const int N, const int M) {
     #pragma omp parallel for num_threads(4)
     for(int n = 0; n<N*M; n++) {
@@ -68,7 +69,6 @@ void naive_matrix_multiply(float *a, float *b, float *c, int n) { //A*B
                 sum = _mm_add_ps(sum, _mm_mul_ps(fa, fd));
             }
             // https://stackoverflow.com/questions/6996764/fastest-way-to-do-horizontal-sse-vector-sum-or-other-reduction
-            // https://stackoverflow.com/questions/10163637/sum-of-the-four-32bits-elements-of-a-m128-vector
             __m128 shuf   = _mm_shuffle_ps(sum, sum, _MM_SHUFFLE(2, 3, 0, 1));  // [ C D | A B ]
             __m128 sums   = _mm_add_ps(sum, shuf);      // sums = [ D+C C+D | B+A A+B ]
             shuf          = _mm_movehl_ps(shuf, sums);      //  [   C   D | D+C C+D ]  // let the compiler avoid a mov by reusing shuf
@@ -76,14 +76,6 @@ void naive_matrix_multiply(float *a, float *b, float *c, int n) { //A*B
             c[i*n+j]      = _mm_cvtss_f32(sums);
         }
     }
-    // for (int i = 0; i < n; i++) { // row
-    //     for (int j = 0; j < n; j++) { // column
-    //         c[i * n + j] = 0.0f;
-    //         for (int k = 0; k < n; k++) { // matrix multiple, store in row, cache locality
-    //             c[i * n + j] += a[i * n + k] * d[j * n + k]; // b[k * n + j]
-    //         }
-    //     }
-    // }
 }
 
 #ifdef __cplusplus

@@ -17,7 +17,7 @@ libmatrix.so: matrix.cpp
 	$(CXX) $(CXXFLAGS) -shared -fPIC -fopenmp -o $@ $^ $(LDFLAGS)
 
 libmandelbrot.so: mandelbrot.cpp
-	$(CXX) $(CXXFLAGS) -shared -fPIC -o $@ $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -shared -fPIC -fopenmp -o $@ $^ $(LDFLAGS)
 
 # Usually there is no need to modify this
 check: all
