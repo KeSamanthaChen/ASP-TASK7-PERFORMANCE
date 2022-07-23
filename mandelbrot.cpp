@@ -93,7 +93,9 @@ void naive_mandelbrot(int width, int height, int* plot) {
                 // Set each bit of mask dst based on the most significant bit of the corresponding packed single-precision (32-bit) floating-point element in a.
                 int cmp_val_int = _mm_movemask_ps(cmp_val); //int: low - high => cpm_val: high -> low
 
-                if (j == 8188 && k == 0) fprintf(stderr, "cmp_val_int value: %d\n", cmp_val_int);
+                if (i == 0 && j == 8184 && k == 0) fprintf(stderr, "cmp_val_int 8184 value: %d\n", cmp_val_int); // 15?
+                if (i == 0 && j == 8188 && k == 0) fprintf(stderr, "cmp_val_int 8188 value: %d\n", cmp_val_int); // 12
+                
 
                 if (cmp_val_int != 0) {
                     if (cmp_val_int & 1) {
