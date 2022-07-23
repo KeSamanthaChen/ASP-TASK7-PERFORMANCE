@@ -9,41 +9,10 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <omp.h>
 
 __m128 constCompare = _mm_set_ps1(4.0f);
 __m128 constMulti = _mm_set_ps1(2);
-
-// __m128 mandelbrot_calc_base(__m128 x, __m128 y) {
-//     __m128 result;
-//     // flag
-//     int flag = 0;
-//     auto re = x;
-//     auto im = y;
-
-//     for (auto i = 0; i < LOOP; i++) {
-//         __m128 re2 = _mm_mul_ps(re, re);
-//         __m128 im2 = _mm_mul_ps(im, im);
-//         // float re2 = re * re;
-//         // float im2 = im * im;
-
-//         // verify if f(z) diverges to infinity
-//         __m128 cmp_val = _mm_cmpgt_ps(_mm_add_ps(re2, im2), constCompare); // if true -> -nan, if false -> 0
-//         // if (re2 + im2 > 4.0f) return i;
-//         int cmp_val_int = _mm_movemask_ps(cmp_val); //int: low - high => cpm_val: high -> low
-//         if (cmp_val_int != 0) {
-//             // if already got the result set the part to be 0?
-
-//         }
-
-//         im = _mm_add_ps(_mm_mul_ps(constMulti, _mm_mul_ps(re, im)), y);
-//         re = _mm_add_ps(_mm_sub_ps(re2, im2), x);
-//         // im = 2 * re * im + y;
-//         // re = re2 - im2 + x;
-//     }
-
-
-//     return LOOP;
-// }
 
 /**
  * @brief Calculates mandelbrot and stores the output in plot
@@ -68,8 +37,6 @@ void naive_mandelbrot(int width, int height, int* plot) {
             __m128 x_simd = _mm_set_ps(x, x1, x2, x3);
             __m128 y_simd = _mm_set_ps1(y);
 
-            // auto result = mandelbrot_calc_base(x_simd, y_simd); 
-
             // put the function here
             auto re = x_simd;
             auto im = y_simd;
@@ -88,10 +55,7 @@ void naive_mandelbrot(int width, int height, int* plot) {
                 __m128 cmp_val = _mm_cmpgt_ps(_mm_add_ps(re2, im2), constCompare); // if true -> -nan, if false -> 0
                 // if (re2 + im2 > 4.0f) return i;
                 // Set each bit of mask dst based on the most significant bit of the corresponding packed single-precision (32-bit) floating-point element in a.
-                int cmp_val_int = _mm_movemask_ps(cmp_val); //int: low - high => cpm_val: high -> low
-
-                // 3277, 1638
-                if (i == 3277 && j == 1636 && k == 1) fprintf(stderr, "cmp_val_int 1636 value: %d\n", cmp_val_int); // 12?
+                int cmp_val_int = _mm_movemask_ps(cmp_val); 
                 
                 // 1    1    0    0
                 // 8188 8189 8190 8191
@@ -131,8 +95,6 @@ void naive_mandelbrot(int width, int height, int* plot) {
                 if (new_int & 4) plot[i*width + j + 1] = LOOP;
                 if (new_int & 8) plot[i*width + j] = LOOP;
             }
-            // seperate the result here
-            // plot[i * width + j] = result;
         }
     }
 }
